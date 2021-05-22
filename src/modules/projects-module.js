@@ -42,6 +42,12 @@ export default function projectReducer(state = initialState, action = {}) {
   }
 }
 
+
+// TODO: SELECTORS
+
+
+
+
 // ACTION CREATORS
 
 export const getProjects = () => ({
@@ -60,7 +66,8 @@ export const getProjectsSaga = function* () {
     })
 
     try {
-      const {data} = yield axios.get('localhost:3000/api/v1/projects');
+
+      const {data} = yield axios.get('http://localhost:8000/api/v1/projects/');
       yield put({
         type: FETCH_PROJECTS_SUCCESS,
         payload: data
