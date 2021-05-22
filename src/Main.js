@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import styled, { ThemeProvider } from "styled-components";
 import ProjectManagerNav from "./components/ProjectManagerNav/ProjectManagerNav";
@@ -10,12 +10,13 @@ import { lightTheme, darkTheme, GlobalStyles } from './themes';
 const StyledApp = styled.div`
   color: ${(props) => props.theme.fontColor};
 `;
+
 function Main() {
   const [theme, setTheme] = useState("dark")
 
-  const themeToggler = () => {
+  const themeToggler = useCallback(() => {
     theme === "light" ? setTheme("dark") : setTheme("light");
-  };
+  }, [theme, setTheme]);
 
   return (
     <ThemeProvider theme={theme === "light" ? lightTheme : darkTheme}>
