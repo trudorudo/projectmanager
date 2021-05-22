@@ -1,0 +1,15 @@
+
+ul {
+    list-style-type: none;
+    margin: 1rem;
+    padding: 0;
+    display: grid;
+    grid-template-columns: 0.1fr 0.1fr 2fr;
+    border-bottom: 2px solid yellow;
+  }
+  li:nth-child(3){
+    justify-self: end;
+  }
+li {
+  margin: 1rem;
+}
