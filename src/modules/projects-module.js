@@ -34,8 +34,10 @@ export default function projectReducer(state = initialState, action = {}) {
 
  // SAGAS
 
- function* getProjects(action){
+//  function* getProjectsSaga(action){
 //      try {
-//          const 
-//      }
+//          const projects = yield ....
+//      } catch (e) {
+//     yield
+// }
 //  }
