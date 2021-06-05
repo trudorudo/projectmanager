@@ -2,6 +2,7 @@ const express = require('express'), bodyParser = require('body-parser'), cors = 
 const app = express()
 const {origin, port} = require('./constants')
 const projectRouter = require('./Routes/project')
+const taskRouter = require('./Routes/task')
 
 app.use(express.urlencoded({extended: true}))
 app.use(bodyParser.json())
@@ -17,7 +18,8 @@ app.use((req, res, next) => {
 })
 
 app.use('/api/v1/projects/', projectRouter)
+app.use('/api/v1/task/', taskRouter)
 
 app.listen(port, () => {
-  console.log(new Date(), 'server already have launched')
+  console.log(new Date(), 'server was launched on port ' + port)
 })
