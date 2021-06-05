@@ -3,7 +3,9 @@ import {
   take,
   put
 } from 'redux-saga/effects';
-import { createSelector } from "reselect";
+import {
+  createSelector
+} from "reselect";
 import axios from 'axios';
 
 // CONSTANTS
@@ -24,24 +26,20 @@ const initialState = {
 }
 
 export default function projectReducer(state = initialState, action = {}) {
-  const newState = {
-    ...state
-  }
-
   switch (action.type) {
     case FETCH_PROJECTS_SUCCESS:
       return {
-        newState,
+        ...state,
         projectsData: action.payload
       }
       case FETCH_PROJECTS_ERROR:
         return {
-          newState,
+          ...state,
           error: action.payload
         }
         case FETCH_PROJECTS_LOADER:
           return {
-            newState,
+            ...state,
             isLoading: action.payload
           }
           default:

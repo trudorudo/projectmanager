@@ -8,7 +8,9 @@ const {
 
 const router = express.Router();
 
-router.get('/:id', task_list);
+// add get all tasks 
+// router.get('/', task_list);
+router.get('/:project_id', task_list);
 router.post('/', task_create);
 router.put('/:id', task_update);
 router.delete('/:id', task_delete);

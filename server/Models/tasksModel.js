@@ -12,7 +12,7 @@ const taskDataValidator = (projectId, name, code) => {
 
 }
 const sqlTasks = {
-    text: `SELECT * FROM taskdeskdb WHERE projectId = $1`
+    text: `SELECT * FROM taskdeskdb WHERE projectId = $1 LIMIT $2 OFFSET $3`
 }
 
 const sqlInsertTask = {
@@ -27,9 +27,9 @@ const sqlDeleteProject = {
     text: `DELETE FROM taskdeskdb WHERE id = $1 RETURNING id, name, code`
 }
 
-const getAllTasks = async (limit = 99999, offset = 0) => {
+const getAllTasks = async (project_id, limit = 99999, offset = 0) => {
     return {
-        data: projectListFormatter(await connect.query(sqlTasks, [limit, offset])),
+        data: projectListFormatter(await connect.query(sqlTasks, [project_id, limit, offset])),
         status: 200
     }
 }
@@ -68,3 +68,6 @@ module.exports = {
     updateTask,
     deleteTask
 }
+
+
+// add status

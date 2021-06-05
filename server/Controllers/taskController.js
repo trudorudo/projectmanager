@@ -7,14 +7,19 @@ const {
 
 const task_list = async (req, res) => {
     const {
-        body: {
-            projectId
+        params: {
+            project_id
+        },
+        query: {
+            limit,
+            offcet
         }
     } = req;
+    console.log('project_id, limit, offcet'+project_id, limit, offcet)
     const {
         data,
         status
-    } = await getAllTasks(projectId);
+    } = await getAllTasks(project_id, limit, offcet);
     res.status(status).send(data);
 };
 

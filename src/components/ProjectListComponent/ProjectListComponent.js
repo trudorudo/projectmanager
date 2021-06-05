@@ -14,10 +14,18 @@ const ProjectListComponent = (props) => {
     return(
        <div>
            ProjectListComponent
-           {projectListData && projectListData[0]?.name}
+           {projectListData && projectListData[0].name}
        </div>
     )
 }
 
 
-export default ProjectListComponent;
+export default ProjectListComponent
+
+
+// this.props.actions.updatePrescriber(cartItem, addToCart)
+
+// const updatePrescriber = (cartItem, callback) => () => {
+//   // batch
+//   // didUpdate()
+// }

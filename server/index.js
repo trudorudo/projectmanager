@@ -17,8 +17,8 @@ app.use((req, res, next) => {
   next()
 })
 
-app.use('/api/v1/projects/', projectRouter)
-app.use('/api/v1/task/', taskRouter)
+app.use('/api/v1/projects', projectRouter)
+app.use('/api/v1/tasks', taskRouter)
 
 app.listen(port, () => {
   console.log(new Date(), 'server was launched on port ' + port)
