@@ -1,5 +1,10 @@
-import {all, take, put} from 'redux-saga/effects'
-import axios from 'axios'
+import {
+  all,
+  take,
+  put
+} from 'redux-saga/effects';
+import { createSelector } from "reselect";
+import axios from 'axios';
 
 // CONSTANTS
 
@@ -19,7 +24,9 @@ const initialState = {
 }
 
 export default function projectReducer(state = initialState, action = {}) {
-  const newState = {...state}
+  const newState = {
+    ...state
+  }
 
   switch (action.type) {
     case FETCH_PROJECTS_SUCCESS:
@@ -27,24 +34,27 @@ export default function projectReducer(state = initialState, action = {}) {
         newState,
         projectsData: action.payload
       }
-    case FETCH_PROJECTS_ERROR:
-      return {
-        newState,
-        error: action.payload
-      }
-    case FETCH_PROJECTS_LOADER:
-      return {
-        newState,
-        isLoading: action.payload
-      }
-    default:
-      return state
+      case FETCH_PROJECTS_ERROR:
+        return {
+          newState,
+          error: action.payload
+        }
+        case FETCH_PROJECTS_LOADER:
+          return {
+            newState,
+            isLoading: action.payload
+          }
+          default:
+            return state
   }
 }
 
 
 // TODO: SELECTORS
-
+export const moduleSelector = state => [moduleName];
+export const projectListDataSelector = createSelector(moduleSelector, state => state.projectsData);
+export const isFetchLadingSelector = createSelector(moduleSelector, state => state.isLoading);
+export const errorSelector = createSelector(moduleSelector, state => state.error);
 
 
 
@@ -57,7 +67,7 @@ export const getProjects = () => ({
 // SAGAS
 
 export const getProjectsSaga = function* () {
-  while(true){
+  while (true) {
     yield take(FETCH_PROJECTS_REQUEST)
 
     yield put({
@@ -66,13 +76,14 @@ export const getProjectsSaga = function* () {
     })
 
     try {
-
-      const {data} = yield axios.get('http://localhost:8000/api/v1/projects/');
+      const {
+        data
+      } = yield axios.get('http://localhost:8000/api/v1/projects/');
       yield put({
         type: FETCH_PROJECTS_SUCCESS,
         payload: data
       })
-    } catch(err){
+    } catch (err) {
       yield put({
         type: FETCH_PROJECTS_ERROR,
         payload: err.message
