@@ -1,9 +1,24 @@
 const {
     getAllTasks,
+    getAllTasksAll,
     createNewTask,
     updateTask,
     deleteTask
 } = require('../Models/tasksModel');
+
+const task_list_all = async (req, res) => {
+    const {
+        query: {
+            limit,
+            offcet
+        }
+    } = req;
+    const {
+        data,
+        status
+    } = await getAllTasksAll(limit, offcet);
+    res.status(status).send(data);
+};
 
 const task_list = async (req, res) => {
     const {
@@ -69,6 +84,7 @@ const task_delete = async (req, res) => {
 }
 
 module.exports = {
+    task_list_all,
     task_list,
     task_create,
     task_update,

@@ -1,13 +1,23 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 
-const TasksListComponent = () => {
+const TasksListComponent = (props) => {
+   const {
+      tasksListData = {},
+      errorMsg,
+      isFetchLoading,
+      getTasks
+   } = props;
 
-    return(
-       <div>
-          TasksListComponent
-       </div>
-    )
+   useEffect(() => {
+      getTasks()
+   }, [getTasks]);
+
+
+   return (
+      <div>
+      </div>
+   )
 }
 
 

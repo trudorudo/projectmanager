@@ -1,0 +1,25 @@
+.newProjectModal {
+    border: '2px solid #000';
+    width: 5rem;
+    background-color: lightgray;
+}
+
+.inputForm {
+    width: 25rem;
+    background-color: lightgray;
+}
+
+.submitBtn {
+    width: 10rem;
+    margin-right: -0.5rem;
+    margin-top: 1rem;
+    height: 2rem;
+    float: right;
+}
+.closeBtn {
+    width: 10rem;
+    margin-right: -0.5rem;
+    margin-top: 1rem;
+    height: 2rem;
+    float: left;
+}

@@ -4,12 +4,13 @@ import { HiMoon } from "react-icons/hi";
 import './projectManagerNav.css';
 
 const ProjectComponent = (props) => {
-    const icon = props.theme === "light" ? <HiMoon size={30} /> : <CgSun size={30} />;
+    const icon = props.theme === "light" ? <HiMoon size={30} className='moon'/> : <CgSun size={30} />;
+    const navClass = props.theme === "light" ? 'light' : 'dark';
     return (
         <div className='projectManagerNav'>
             <ul>
-                <li><a href="/">Projects</a></li>
-                <li><a href="/tasks">Tasks</a></li>
+                <li><a href="/" className={navClass}> Projects</a></li>
+                <li><a href="/tasks" className={navClass}>Tasks</a></li>
                 <li
                     className='darkModeBtn'
                     onClick={() => props.themeToggler()}>{icon}

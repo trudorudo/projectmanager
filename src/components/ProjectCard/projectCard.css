@@ -1,0 +1,50 @@
+.projectCard {
+    border: 1px gray solid;
+    padding: 2rem;
+    display: grid;
+    grid-template-columns: 0.1fr 1fr 1fr 1fr;
+    font-family: 'Inconsolata', monospace;
+}
+.projectCard > div:nth-child(4){
+    justify-self: end;
+}
+.taskBtn {
+    background: gray;
+    border: none;
+    display: inline-block;
+    height: 28px;
+    line-height: 28px;
+    position: relative;
+    text-decoration: none;
+    width: 100px
+}
+.taskBtn:before{
+    background: gray;
+    border: none;
+    content: '';
+    display: block;
+    height: 20px;
+    left: 90px;
+    position: absolute;
+    top: 4px;
+    -moz-transform: rotate(45deg);
+    -webkit-transform: rotate(45deg);
+    -o-transform: rotate(45deg);
+    transform: rotate(45deg);
+    width: 21px;
+}
+.taskBtn button {
+    color: white;
+    background: none;
+    border: none;
+    font-weight: bold;
+    position: relative;
+    width: 120px;
+    height: 28px;
+}
+
+.deleteBtn {
+    color: red;
+    background-color: black;
+    font-size: larger;
+}

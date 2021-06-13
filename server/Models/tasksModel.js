@@ -11,6 +11,9 @@ const taskDataValidator = (projectId, name, code) => {
     if (code.match(/[\ -\@]/g)) errors.code = 'code can not contain any special chracters';
 
 }
+const sqlAllTasks = { 
+    text: `SELECT * FROM taskdeskdb LIMIT $1 OFFSET $2`
+}
 const sqlTasks = {
     text: `SELECT * FROM taskdeskdb WHERE projectId = $1 LIMIT $2 OFFSET $3`
 }
@@ -25,6 +28,12 @@ const sqlUpdateTask = {
 
 const sqlDeleteProject = {
     text: `DELETE FROM taskdeskdb WHERE id = $1 RETURNING id, name, code`
+}
+const getAllTasksAll = async (limit = 99999, offset = 0) => {
+    return {
+        data: projectListFormatter(await connect.query(sqlAllTasks, [limit, offset])),
+        status: 200
+    }
 }
 
 const getAllTasks = async (project_id, limit = 99999, offset = 0) => {
@@ -63,6 +72,7 @@ const deleteTask = async (id) => {
 }
 
 module.exports = {
+    getAllTasksAll,
     getAllTasks,
     createNewTask,
     updateTask,
