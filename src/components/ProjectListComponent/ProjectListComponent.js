@@ -56,7 +56,6 @@ const ProjectListComponent = (props) => {
               setOpen={setOpen}
               projectModalAction={saveProject}
               isAddNewLoading={isAddNewLoading}
-              newProjectData={newProjectData}
               title={ADD_NEW_PROJECT}
             />
           </div>

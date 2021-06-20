@@ -76,7 +76,8 @@ export default function tasksReducer(state = initialState, action = {}) {
       }
     case SAVE_TASK_SUCCESS:
       return {
-        ...state
+        ...state,
+        tasksData: {...state.tasksData, data: action.payload }
       }
     case SAVE_TASK_ERROR:
       return {
@@ -147,7 +148,7 @@ export const deleteTask = (id) => ({
 
 export const getTasksSaga = function* () {
   while (true) {
-    const {payload} = yield take(FETCH_TASKS_REQUEST)
+    const { payload } = yield take(FETCH_TASKS_REQUEST)
 
     yield put({
       type: FETCH_TASKS_LOADER,
@@ -278,7 +279,7 @@ export const saveTaskSaga = function* () {
       });
       yield put({
         type: SAVE_TASK_SUCCESS,
-        payload: data
+        payload: data?.rows
       })
     } catch (err) {
       yield put({

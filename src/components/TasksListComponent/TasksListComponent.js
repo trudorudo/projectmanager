@@ -3,9 +3,9 @@ import ClipLoader from "react-spinners/BounceLoader";
 import TaskCard from '../TaskCard';
 import { ADD__NEW_TASK } from '../../utils/constants';
 import NewTaskModal from '../NewTaskModal';
-import {useParams} from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import useTraceUpdate from '../../hooks/useTraceUpdate'
-import {batch} from 'react-redux'
+import { batch } from 'react-redux'
 
 const TasksListComponent = (props) => {
    const {
@@ -23,7 +23,7 @@ const TasksListComponent = (props) => {
       getStatuses
    } = props;
 
-   const {project_id} = useParams()
+   const { project_id } = useParams()
    useTraceUpdate(props)
 
    useEffect(() => {
@@ -57,6 +57,7 @@ const TasksListComponent = (props) => {
             open={open}
             setOpen={setOpen}
             title={ADD__NEW_TASK}
+            taskItem={{ project_id: project_id }}
             taskModalAction={saveTask}
          />}
       </div>

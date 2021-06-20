@@ -15,7 +15,7 @@ const sqlAllTasks = {
     text: `SELECT * FROM taskdeskdb LIMIT $1 OFFSET $2`
 }
 const sqlTasks = {
-    text: `SELECT * FROM taskdeskdb WHERE projectId = $1 LIMIT $2 OFFSET $3`
+    text: `SELECT * FROM taskdeskdb WHERE project_id = $1 LIMIT $2 OFFSET $3`
 }
 
 const sqlInsertTask = {

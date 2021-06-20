@@ -1,20 +1,16 @@
 import React, { useState } from 'react';
+import { CgSidebarOpen } from 'react-icons/cg';
 import Modal from '../Modal';
-import {useParams} from 'react-router-dom'
 
 const NewTaskModal = (props) => {
     const { open, setOpen, taskModalAction, title, taskItem = {} } = props;
-    const { name = '', code = '', id = '', description = '' } = taskItem;
-    const {project_id} = useParams()
-    const [taskName, setTaskName] = useState(name);
-    const [taskCode, setTaskCode] = useState(code);
-    const [taskStatus, setTaskStatus] = useState('');
-    const [taskType, setTaskType] = useState('');
-    const [taskDescription, setTaskDescription] = useState(description);
+
+    const [task, setTask] = useState(taskItem)
 
     const handleSubmit = (evt) => {
         evt.preventDefault();
-        taskModalAction({ id, project_id, taskName, taskCode, taskStatus, taskType, taskDescription });
+        taskModalAction(task);
+        setOpen(false);
     }
     return (
         <div className='newTaskModal'>
@@ -28,25 +24,25 @@ const NewTaskModal = (props) => {
                         <input
                             className='inputForm'
                             type='text'
-                            name='taskName'
-                            value={taskName}
-                            onChange={e => setTaskName(e.target.value)}
+                            name='name'
+                            value={task.name}
+                            onChange={e => setTask((prevState) => ({ ...prevState, name: e.target.value }))}
                         />
                         <p>Code</p>
                         <input
                             className='inputForm'
                             type='text'
-                            name='TaskCode'
-                            value={taskCode}
-                            onChange={e => setTaskCode(e.target.value)}
+                            name='code'
+                            value={task.code}
+                            onChange={e => setTask((prevState) => ({ ...prevState, code: e.target.value }))}
                         />
                         <p>Type</p>
                         <select
                             className='inputForm'
                             // type='text'
                             name='type'
-                            value={taskType}
-                            onChange={e => setTaskType(e.target.value)}
+                            value={task.type}
+                            onChange={e => setTask((prevState) => ({ ...prevState, type: e.target.value }))}
                         >
                             <option name="male"> SPIKE</option>
                             <option name="male"> Bug</option>
@@ -56,9 +52,9 @@ const NewTaskModal = (props) => {
                         <select
                             className='inputForm'
                             // type='text'
-                            name='Status'
-                            value={taskStatus}
-                            onChange={e => setTaskStatus(e.target.value)}
+                            name='status'
+                            value={task.status}
+                            onChange={e => setTask((prevState) => ({ ...prevState, task_status: e.target.value }))}
                         >
                             <option name="male"> TODO</option>
                             <option name="male"> In Progress</option>
@@ -68,9 +64,9 @@ const NewTaskModal = (props) => {
                         <input
                             className='inputForm'
                             type='text'
-                            name='TaskCode'
-                            value={taskDescription}
-                            onChange={e => setTaskDescription(e.target.value)}
+                            name='description'
+                            value={task.description}
+                            onChange={e => setTask((prevState) => ({ ...prevState, description: e.target.value }))}
                         />
                         <input
                             type='submit'
