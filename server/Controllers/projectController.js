@@ -50,14 +50,13 @@ const project_update = async (req, res) => {
 
 const project_delete = async (req, res) => {
   const {
-    body: {
-      id
-    }
+    body
   } = req
+  console.log('check id ',body);
   const {
     data,
     status
-  } = await deleteProject(id)
+  } = await deleteProject(body.id)
   res.status(status).send(data)
 }
 

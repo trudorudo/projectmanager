@@ -27,6 +27,11 @@ export const DELETE_PROJECT_REQUEST_SUCCESS = `${moduleName}/DELETE_PROJECT_REQU
 export const DELETE_PROJECT_REQUEST_ERROR = `${moduleName}/DELETE_PROJECT_REQUEST_ERROR`
 export const DELETE_PROJECT_REQUEST_LOADER = `${moduleName}/DELETE_PROJECT_REQUEST_LOADER`
 
+export const UPDATE_PROJECT_REQUEST = `${moduleName}/UPDATE_PROJECT_REQUEST`
+export const UPDATE_PROJECT_REQUEST_SUCCESS = `${moduleName}/UPDATE_PROJECT_REQUEST_SUCCESS`
+export const UPDATE_PROJECT_REQUEST_ERROR = `${moduleName}/UPDATE_PROJECT_REQUEST_ERROR`
+export const UPDATE_PROJECT_REQUEST_LOADER = `${moduleName}/UPDATE_PROJECT_REQUEST_LOADER`
+
 // REDUCERS
 
 const initialState = {
@@ -35,7 +40,8 @@ const initialState = {
   isLoading: false,
   newProject: null,
   isAddLoading: false,
-  isProjectDeleted: false
+  isProjectDeleted: false,
+  isProjectUpdated: false
 }
 
 export default function projectReducer(state = initialState, action = {}) {
@@ -86,12 +92,24 @@ export default function projectReducer(state = initialState, action = {}) {
         isProjectDeleted: false,
         isLoading: false
       }
-    case DELETE_PROJECT_REQUEST_LOADER:
-      return {
-        ...state,
-        isProjectDeleted: false,
-        isLoading: action.payload
-      }
+      case UPDATE_PROJECT_REQUEST_LOADER:
+        return {
+          ...state,
+          isProjectUpdated: false,
+          isLoading: action.payload
+        }
+      case UPDATE_PROJECT_REQUEST_SUCCESS:
+        return {
+          ...state,
+          isProjectUpdated: true,
+          newProject: action.payload
+        }
+      case UPDATE_PROJECT_REQUEST_ERROR:
+        return {
+          ...state,
+          isProjectUpdated: false,
+          isLoading: false
+        }
     default:
       return state
   }
@@ -105,6 +123,7 @@ export const isFetchLadingSelector = createSelector(moduleSelector, state => sta
 export const errorSelector = createSelector(moduleSelector, state => state.error);
 
 export const isAddNewProjectLoading = createSelector(moduleSelector, state => state.isAddLoading);
+export const isProjectDeletedSelector = createSelector(moduleSelector, state => state.isProjectDeleted);
 export const newProjectSelector = createSelector(moduleSelector, state => state.newProject);
 
 
@@ -116,12 +135,18 @@ export const getProjects = () => ({
 
 export const saveProject = (obj) => ({
   type: SAVE_PROJECT_REQUEST,
-  meta: obj
+  payload: obj
 })
 
 export const deleteProject = (id) => ({
   type: DELETE_PROJECT_REQUEST,
-  meta: id
+  payload: id
+})
+
+
+export const updateProject = (obj) => ({
+  type: UPDATE_PROJECT_REQUEST,
+  payload: obj
 })
 
 // SAGAS
@@ -159,20 +184,20 @@ export const getProjectsSaga = function* () {
 
 export const saveProjectSaga = function* () {
   while (true) {
-    const { meta } = yield take(SAVE_PROJECT_REQUEST)
+    const { payload } = yield take(SAVE_PROJECT_REQUEST)
 
     yield put({
       type: SAVE_PROJECT_REQUEST_LOADER,
       payload: true,
-      meta: meta ? meta : {}
+      payload: payload ? payload : {}
     })
 
     try {
       const {
         data
       } = yield axios.post('http://localhost:8000/api/v1/projects/', {
-        name: meta.projectName,
-        code: meta.projectCode
+        name: payload.projectName,
+        code: payload.projectCode
       });
       yield put({
         type: SAVE_PROJECT_REQUEST_SUCCESS,
@@ -194,19 +219,24 @@ export const saveProjectSaga = function* () {
 
 export const deleteProjectSaga = function* () {
   while (true) {
-    const { meta } = yield take(DELETE_PROJECT_REQUEST)
+    const { payload } = yield take(DELETE_PROJECT_REQUEST)
 
     yield put({
       type: DELETE_PROJECT_REQUEST_LOADER,
       payload: true,
-      meta: meta ? meta : {}
+      payload: payload ? payload : {}
     })
 
     try {
       const {
         data
-      } = yield axios.delete('http://localhost:8000/api/v1/projects/', {
-        id: meta
+      } = yield axios({
+        url: 'http://localhost:8000/api/v1/projects/',
+        data: JSON.stringify({ id: payload }),
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json'
+        }
       });
       yield put({
         type: DELETE_PROJECT_REQUEST_SUCCESS,
@@ -225,11 +255,46 @@ export const deleteProjectSaga = function* () {
     }
   }
 }
+export const updateProjectSaga = function* () {
+  while (true) {
+    const { payload } = yield take(UPDATE_PROJECT_REQUEST)
 
+    yield put({
+      type: UPDATE_PROJECT_REQUEST_LOADER,
+      payload: true,
+      payload: payload ? payload : {}
+    })
+
+    try {
+      const {
+        data
+      } = yield axios.put('http://localhost:8000/api/v1/projects/', {
+        id: payload.id,
+        name: payload.projectName,
+        code: payload.projectCode
+      });
+      yield put({
+        type: UPDATE_PROJECT_REQUEST_SUCCESS,
+        payload: data
+      })
+    } catch (err) {
+      yield put({
+        type: UPDATE_PROJECT_REQUEST_ERROR,
+        payload: err.message
+      })
+    } finally {
+      yield put({
+        type: UPDATE_PROJECT_REQUEST_LOADER,
+        payload: false
+      })
+    }
+  }
+}
 export const saga = function* () {
   yield all([
     getProjectsSaga(),
     saveProjectSaga(),
-    deleteProjectSaga()
+    deleteProjectSaga(),
+    updateProjectSaga()
   ])
 }

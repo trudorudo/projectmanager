@@ -25,7 +25,6 @@ const projectDataValidator = (name, code) => {
   return errors
 }
 
-
 const sqlProjects = {
   text: 'SELECT * FROM projectdeskdb LIMIT $1 OFFSET $2'
 }
@@ -39,7 +38,7 @@ const sqlUpdateProject = {
 }
 
 const sqlDeleteProject = {
-  text: `DELETE FROM projectdeskdb WHERE id = $1 RETURNING id, name, code`
+  text: `DELETE FROM projectdeskdb WHERE id = $1`
 }
 
 

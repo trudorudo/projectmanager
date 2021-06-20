@@ -4,19 +4,27 @@ import {
   getProjects,
   saveProject,
   deleteProject,
+  updateProject,
   projectListDataSelector,
   isFetchLadingSelector,
   errorSelector,
   isAddNewProjectLoading,
-  newProjectSelector
-} from '../modules/projects-module'
+  newProjectSelector,
+  isProjectDeletedSelector
+} from '../modules/projects-module';
 
-const mapStateToProps  = state => ({
+const mapStateToProps = state => ({
   errorMsg: errorSelector(state),
   projectListData: projectListDataSelector(state),
   isFetchLoading: isFetchLadingSelector(state),
   isAddNewLoading: isAddNewProjectLoading(state),
-  newProjectData: newProjectSelector(state)
+  newProjectData: newProjectSelector(state),
+  isProjectDeleted: isProjectDeletedSelector(state)
 });
 
-export default connect(mapStateToProps, {getProjects, saveProject, deleteProject})(ProjectListComponent)
+export default connect(mapStateToProps, {
+  getProjects,
+  saveProject,
+  deleteProject,
+  updateProject
+})(ProjectListComponent)

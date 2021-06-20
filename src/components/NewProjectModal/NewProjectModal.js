@@ -1,83 +1,48 @@
 import React, { useState } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import Modal from '@material-ui/core/Modal';
-import Backdrop from '@material-ui/core/Backdrop';
-import Fade from '@material-ui/core/Fade';
+import Modal from '../Modal';
 import './newProjectModal.css';
 
-const useStyles = makeStyles((theme) => ({
-    modal: {
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    paper: {
-        backgroundColor: 'lightgray',
-        border: '2px solid #000',
-        boxShadow: theme.shadows[5],
-        padding: theme.spacing(2, 4, 3),
-        width: '25rem'
-    },
-}));
-
-
 const NewProjectModal = (props) => {
-    const { open, handleClose, saveProject, isAddNewLoading } = props;
-    const classes = useStyles();
-    const [projectName, setProjectName] = useState('');
-    const [projectCode, setProjectCode] = useState('');
+    const { open, setOpen, projectModalAction, title, projectItem = {} } = props;
+    const { name = '', code = '', id = '' } = projectItem;
+    const [projectName, setProjectName] = useState(name);
+    const [projectCode, setProjectCode] = useState(code);
 
     const handleSubmit = (evt) => {
         evt.preventDefault();
-        saveProject({ projectName, projectCode });
+        projectModalAction({ id, projectName, projectCode });
     }
 
     return (
         <div className='newProjectModal'>
-            <div>
-                {isAddNewLoading && <p> loading...</p>}
+            {open &&
                 <Modal
-                    aria-labelledby="transition-modal-title"
-                    aria-describedby="transition-modal-description"
-                    className={classes.modal}
-                    open={open}
-                    onClose={handleClose}
-                    closeAfterTransition
-                    BackdropComponent={Backdrop}
-                    BackdropProps={{
-                        timeout: 500,
-                    }}
+                    title={title}
+                    onClose={() => setOpen(false)}
                 >
-                    <Fade in={open}>
-                        <div className={classes.paper}>
-                            <h2 id="transition-modal-title">Add New Project</h2>
-                            <form onSubmit={handleSubmit}>
-                                <p>Name</p>
-                                <input
-                                    className='inputForm'
-                                    type='text'
-                                    name='projectName'
-                                    value={projectName}
-                                    onChange={e => setProjectName(e.target.value)}
-                                />
-                                <p>Code</p>
-                                <input
-                                    className='inputForm'
-                                    type='text'
-                                    name='projectCode'
-                                    value={projectCode}
-                                    onChange={e => setProjectCode(e.target.value)}
-                                />
-                                <input
-                                    type='submit'
-                                    className='submitBtn'
-                                />
-                            </form>
-                        </div>
-                    </Fade>
-                </Modal>
-
-            </div>
+                    <form onSubmit={handleSubmit}>
+                        <p>Name</p>
+                        <input
+                            className='inputForm'
+                            type='text'
+                            name='projectName'
+                            value={projectName}
+                            onChange={e => setProjectName(e.target.value)}
+                        />
+                        <p>Code</p>
+                        <input
+                            className='inputForm'
+                            type='text'
+                            name='projectCode'
+                            value={projectCode}
+                            onChange={e => setProjectCode(e.target.value)}
+                        />
+                        <input
+                            type='submit'
+                            className='submitBtn'
+                        />
+                    </form>
+                </Modal>}
         </div>
     )
 }

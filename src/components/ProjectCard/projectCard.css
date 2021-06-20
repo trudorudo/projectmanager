@@ -48,3 +48,6 @@
     background-color: black;
     font-size: larger;
 }
+.projectName {
+    text-decoration-line: underline;
+}

@@ -41,32 +41,36 @@ const task_list = async (req, res) => {
 const task_create = async (req, res) => {
     const {
         body: {
-            projectId,
+            project_id,
             name,
             code,
-            description
+            description,
+            type,
+            task_status
         }
     } = req;
     const {
         data,
         status
-    } = await createNewTask(projectId, name, code, description);
+    } = await createNewTask(project_id, name, code, description, type, task_status);
     res.status(status).send(data);
 }
 
 const task_update = async (req, res) => {
     const {
         body: {
-            projectId,
+            project_id,
             name,
             code,
-            description
+            description,
+            type,
+            task_status
         }
     } = req;
     const {
         data,
         status
-    } = await updateTask(projectId, name, code, description);
+    } = await updateTask(project_id, name, code, description, type, task_status);
     res.status(status).send(data);
 }
 

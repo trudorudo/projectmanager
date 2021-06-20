@@ -3,11 +3,11 @@ const {
     projectListFormatter
 } = require('../formatters');
 
-const taskDataValidator = (projectId, name, code) => {
+const taskDataValidator = (project_id, name, code) => {
     const errors = {};
 
     if (!name) errors.name = 'task name is required field';
-    if (!projectId) errors.projectId = 'project ID is required to create a task';
+    if (!project_id) errors.project_id = 'project ID is required to create a task';
     if (code.match(/[\ -\@]/g)) errors.code = 'code can not contain any special chracters';
 
 }
@@ -19,11 +19,11 @@ const sqlTasks = {
 }
 
 const sqlInsertTask = {
-    text: `INSERT INTO taskdeskdb (projectId, name, code, description) VALUES ($1, $2, $3, $4) RETURNING id, projectId, name,  code, description`
+    text: `INSERT INTO taskdeskdb (project_id, name, code, description, type, task_status) VALUES ($1, $2, $3, $4, $5, $6) RETURNING id, project_id, name,  code, description, type, task_status`
 }
 
 const sqlUpdateTask = {
-    text: `UPDATE taskdeskdb SET name = $3, code = $2,  description = $4 WHERE id = $1 RETURNING taskId, name, code, description`
+    text: `UPDATE taskdeskdb SET name = $2, code = $3, description = $4, task_status = $6, type = $5 WHERE id = $1 RETURNING name, code, description`
 }
 
 const sqlDeleteProject = {
@@ -43,23 +43,23 @@ const getAllTasks = async (project_id, limit = 99999, offset = 0) => {
     }
 }
 
-const createNewTask = async (projectId, name, code, description) => {
-    const errors = taskDataValidator(projectId, name, code)
-    if (errors.code || errors.projectId || errors.name) {
-        return {
-            data: errors,
-            status: 400
-        }
-    }
+const createNewTask = async (project_id, name, code, description, type, task_status) => {
+    // const errors = taskDataValidator(project_id, name, code)
+    // if (errors.code || errors.project_id || errors.name) {
+    //     return {
+    //         data: errors,
+    //         status: 400
+    //     }
+    // }
     return {
-        data: await connect.query(sqlInsertTask, [projectId, name, code, description]),
+        data: await connect.query(sqlInsertTask, [project_id, name, code, description, type, task_status]),
         status: 200
     }
 }
 
-const updateTask = async (projectId, name, code, description) => {
+const updateTask = async (project_id, name, code, description, type, task_status) => {
     return {
-        data: await connect.query(sqlUpdateTask, [projectId, name, code, description]),
+        data: await connect.query(sqlUpdateTask, [project_id, name, code, description, type, task_status]),
         status: 200
     }
 }

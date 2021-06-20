@@ -7,14 +7,15 @@
 .inputForm {
     width: 25rem;
     background-color: lightgray;
+    margin: 0rem 0rem 0rem 1rem;
 }
 
 .submitBtn {
     width: 10rem;
-    margin-right: -0.5rem;
-    margin-top: 1rem;
     height: 2rem;
     float: right;
+    margin: 1rem;
+    margin-right: 3.5rem;
 }
 .closeBtn {
     width: 10rem;
@@ -22,4 +23,10 @@
     margin-top: 1rem;
     height: 2rem;
     float: left;
+}
+form {
+    width: 30rem;
+}
+p {
+    margin-left: 1rem;
 }

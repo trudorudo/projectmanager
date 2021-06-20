@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import ClipLoader from "react-spinners/BounceLoader";
+import { ADD_NEW_PROJECT } from '../../utils/constants';
 import ProjectCard from '../ProjectCard/ProjectCard';
 import NewProjectModal from '../NewProjectModal/NewProjectModal';
 import './projectListComponent.css';
@@ -13,27 +14,21 @@ const ProjectListComponent = (props) => {
     saveProject,
     isAddNewLoading,
     newProjectData,
-    deleteProject
+    deleteProject,
+    updateProject
   } = props;
 
   useEffect(() => {
     getProjects()
   }, [getProjects]);
 
-  useEffect(() => {
-    getProjects();
-    handleClose();
-  }, [newProjectData]);
 
   const [open, setOpen] = React.useState(false);
 
-  const handleOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
+  useEffect(() => {
+    getProjects();
     setOpen(false);
-  };
+  }, [newProjectData]);
 
   let [color, setColor] = useState("#ffffff");
 
@@ -48,19 +43,21 @@ const ProjectListComponent = (props) => {
                 projectItem={projectItem}
                 key={key}
                 deleteProject={deleteProject}
+                updateProject={updateProject}
               />
             ))}
             <button
               className='addNewBtn'
               type='button'
-              onClick={handleOpen}
+              onClick={() => setOpen(true)}
             > + Add New</button>
             <NewProjectModal
               open={open}
-              handleClose={handleClose}
-              saveProject={saveProject}
+              setOpen={setOpen}
+              projectModalAction={saveProject}
               isAddNewLoading={isAddNewLoading}
               newProjectData={newProjectData}
+              title={ADD_NEW_PROJECT}
             />
           </div>
       }

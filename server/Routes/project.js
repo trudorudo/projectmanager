@@ -13,4 +13,4 @@ router.post('/', project_create)
 router.put('/', project_update)
 router.delete('/', project_delete)
 
-module.exports = router
+module.exports = router;
