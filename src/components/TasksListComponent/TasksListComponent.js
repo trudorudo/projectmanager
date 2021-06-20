@@ -3,13 +3,15 @@ import ClipLoader from "react-spinners/BounceLoader";
 import TaskCard from '../TaskCard';
 import { ADD__NEW_TASK } from '../../utils/constants';
 import NewTaskModal from '../NewTaskModal';
+import {useParams} from 'react-router-dom'
+import useTraceUpdate from '../../hooks/useTraceUpdate'
+import {batch} from 'react-redux'
 
 const TasksListComponent = (props) => {
    const {
       tasksListData,
       errorMsg,
       isFetchLoading,
-      newTask,
       typesList,
       statusesList,
 
@@ -21,16 +23,16 @@ const TasksListComponent = (props) => {
       getStatuses
    } = props;
 
-   useEffect(() => {
-      getTasks();
-      getTypes();
-      getStatuses();
-   }, [getTasks, getTypes, getStatuses]);
+   const {project_id} = useParams()
+   useTraceUpdate(props)
 
    useEffect(() => {
-      getTasks();
-      setOpen(false);
-   }, [newTask]);
+      batch(() => {
+         getTasks(project_id || '');
+         getTypes();
+         getStatuses();
+      })
+   }, [getTasks, getTypes, getStatuses]);
 
    const [open, setOpen] = React.useState(false);
    return (
@@ -46,17 +48,17 @@ const TasksListComponent = (props) => {
                      />)}
                </div>
          }
-         <button
+         {project_id && <button
             className='addNewBtn'
             type='button'
             onClick={() => setOpen(true)}
-         > + Add New</button>
-         <NewTaskModal
+         > + Add New</button>}
+         {project_id && <NewTaskModal
             open={open}
             setOpen={setOpen}
             title={ADD__NEW_TASK}
             taskModalAction={saveTask}
-         />
+         />}
       </div>
    )
 }

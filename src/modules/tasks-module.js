@@ -39,7 +39,6 @@ const initialState = {
   error: null,
   isLoading: false,
   isTaskUpdated: false,
-  newTask: null,
   isTaskDeleted: false
 }
 
@@ -48,8 +47,7 @@ export default function tasksReducer(state = initialState, action = {}) {
     case FETCH_TASKS_SUCCESS:
       return {
         ...state,
-        tasksData: action.payload,
-        newTask: null
+        tasksData: action.payload
       }
     case FETCH_TASKS_ERROR:
       return {
@@ -64,8 +62,7 @@ export default function tasksReducer(state = initialState, action = {}) {
     case UPDATE_TASK_SUCCESS:
       return {
         ...state,
-        tasksData: action.payload,
-        newTask: action.payload
+        tasksData: action.payload
       }
     case UPDATE_TASK_ERROR:
       return {
@@ -79,8 +76,7 @@ export default function tasksReducer(state = initialState, action = {}) {
       }
     case SAVE_TASK_SUCCESS:
       return {
-        ...state,
-        newTask: action.payload
+        ...state
       }
     case SAVE_TASK_ERROR:
       return {
@@ -96,8 +92,7 @@ export default function tasksReducer(state = initialState, action = {}) {
       return {
         ...state,
         isTaskDeleted: true,
-        isLoading: false,
-        newTask: action.payload
+        isLoading: false
       }
     case DELETE_TASK_ERROR:
       return {
@@ -120,15 +115,15 @@ export default function tasksReducer(state = initialState, action = {}) {
 
 // TODO: SELECTORS
 export const moduleSelector = state => state[moduleName];
-export const tasksListSelector = createSelector(moduleSelector, state => state.tasksData?.data);
+export const tasksListSelector = createSelector(moduleSelector, state => state.tasksData?.data || []);
 export const isFetchLadingSelector = createSelector(moduleSelector, state => state.isLoading);
 export const errorSelector = createSelector(moduleSelector, state => state.error);
-export const newTaskSelector = createSelector(moduleSelector, state => state.newTask);
 
 // ACTION CREATORS
 
-export const getTasks = () => ({
-  type: FETCH_TASKS_REQUEST
+export const getTasks = (project_id) => ({
+  type: FETCH_TASKS_REQUEST,
+  payload: project_id
 });
 
 export const updateTask = (obj) => ({
@@ -152,7 +147,7 @@ export const deleteTask = (id) => ({
 
 export const getTasksSaga = function* () {
   while (true) {
-    yield take(FETCH_TASKS_REQUEST)
+    const {payload} = yield take(FETCH_TASKS_REQUEST)
 
     yield put({
       type: FETCH_TASKS_LOADER,
@@ -162,7 +157,7 @@ export const getTasksSaga = function* () {
     try {
       const {
         data
-      } = yield axios.get('http://localhost:8000/api/v1/tasks/');
+      } = yield axios.get('http://localhost:8000/api/v1/tasks/' + payload);
       yield put({
         type: FETCH_TASKS_SUCCESS,
         payload: data
@@ -187,7 +182,6 @@ export const updateTaskSaga = function* () {
 
     yield put({
       type: UPDATE_TASK_LOADER,
-      payload: true,
       payload: payload ? payload : {}
     })
 
@@ -235,7 +229,6 @@ export const deleteTaskSaga = function* () {
 
     yield put({
       type: DELETE_TASK_LOADER,
-      payload: true,
       payload: payload ? payload : {}
     })
 
@@ -274,7 +267,6 @@ export const saveTaskSaga = function* () {
 
     yield put({
       type: SAVE_TASK_LOADER,
-      payload: true,
       payload: payload ? payload : {}
     })
 
@@ -282,12 +274,7 @@ export const saveTaskSaga = function* () {
       const {
         data
       } = yield axios.post('http://localhost:8000/api/v1/tasks/', {
-        project_id: 35,
-        name: payload.taskName,
-        code: payload.taskCode,
-        description: payload.taskDescription,
-        type: payload.taskType,
-        task_status: payload.taskStatus
+        ...payload
       });
       yield put({
         type: SAVE_TASK_SUCCESS,

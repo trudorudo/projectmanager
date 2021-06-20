@@ -30,7 +30,7 @@ function Main() {
           <Switch>
             <Route exact path='/' component={ProjectManagerContainer} />
             <Route exact path='/tasks' component={TaskManagerContainer} />
-            <Route path='/tasks/:id' component={TaskManagerContainer} />
+            <Route path='/tasks/:project_id' component={TaskManagerContainer} />
             <Route path='*' component={NotFound} />
           </Switch>
         </Router>

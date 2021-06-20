@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import Modal from '../Modal';
+import {useParams} from 'react-router-dom'
 
 const NewTaskModal = (props) => {
     const { open, setOpen, taskModalAction, title, taskItem = {} } = props;
-    const { project_id = '', name = '', code = '', id = '', description = '' } = taskItem;
-
+    const { name = '', code = '', id = '', description = '' } = taskItem;
+    const {project_id} = useParams()
     const [taskName, setTaskName] = useState(name);
     const [taskCode, setTaskCode] = useState(code);
     const [taskStatus, setTaskStatus] = useState('');
