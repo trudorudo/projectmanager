@@ -1,7 +1,7 @@
-import React  from 'react';
+import React from 'react';
 import Modal from '../Modal';
 import './newProjectModal.css';
-import {Field, Form, Formik} from 'formik'
+import { Field, Form, Formik, ErrorMessage } from 'formik'
 
 const NewProjectModal = (props) => {
     const { open, setOpen, projectModalAction, title, projectItem = {} } = props;
@@ -18,37 +18,37 @@ const NewProjectModal = (props) => {
                     onClose={() => setOpen(false)}
                 >
                     <Formik
-                      initialValues={projectItem}
-                      validate={(name, code) => {
-                          const errors = {}
-                          if(!name) {
-                              errors.name = "Name is required"
-                          }
-                          if(!code) {
-                              errors.code = "Code is required"
-                          }
-                          return errors
-                      }}
-                      onSubmit={handleSubmit}
+                        initialValues={projectItem}
+                        validate={values => {
+                            const errors = {}
+                            if (!values.name) {
+                                errors.name = "Name is required"
+                            }
+                            if (!values.code) {
+                                errors.code = "Code is required"
+                            }
+                            return errors
+                        }}
+                        onSubmit={handleSubmit}
                     >
                         <Form>
                             <p>Name</p>
                             <Field
-                              className='inputForm'
-                              name='name'
+                                className='inputForm'
+                                name='name'
                             />
                             <p>Code</p>
                             <Field
-                              className='inputForm'
-                              name='code'
+                                className='inputForm'
+                                name='code'
                             />
+                            <ErrorMessage name="code" component="div" />
                             <button
-                              type='submit'
-                              className='submitBtn'
+                                type='submit'
+                                className='submitBtn'
                             >Add</button>
                         </Form>
                     </Formik>
-
                 </Modal>}
         </div>
     )

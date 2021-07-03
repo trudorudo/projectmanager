@@ -7,10 +7,12 @@ import {
     saveTask,
     tasksListSelector,
     isFetchLadingSelector,
-    errorSelector
+    errorSelector,
+    getTypes,
+    typesListSelector,
+    getStatuses,
+    statusesListSelector
 } from '../modules/tasks-module';
-import { getTypes, typesListSelector} from '../modules/types-module';
-import { getStatuses, statusesListSelector} from '../modules/statuses-module';
 
 const mapStateToProps = state => ({
     errorMsg: errorSelector(state),

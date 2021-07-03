@@ -1,0 +1,10 @@
+ - merge types, statuses controlles to tasks - DONE
+ 
+ - merge modules, common error for types and statuses - DONE
+
+ - saga,
+
+ -  search status, type by id 
+ - add validation
+
+ - tasks add formic

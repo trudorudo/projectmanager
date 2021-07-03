@@ -24,23 +24,9 @@
 .taskstatus {
     width: 9rem;
     margin-left: 50%;
-    border-radius: 25%;
+    font-weight: bold;
+    // border-radius: 25%;
     text-align-last: center;
     padding-top: 3px;
-}
-
-.todo{
-    background-color: blue;
-}
-.inprogress {
-    background-color: yellow;
-}
-.testing {
-    background-color: orange;
-}
-.blocked {
-    background-color: red;
-}
-.done {
-    background-color: green;
+    color: black;
 }

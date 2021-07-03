@@ -25,7 +25,7 @@ const project_create = async (req, res) => {
       name,
       code
     }
-  } = req
+  } = req;
   const {
     data,
     status

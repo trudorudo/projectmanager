@@ -30,7 +30,6 @@ const task_list = async (req, res) => {
             offcet
         }
     } = req;
-    console.log('project_id, limit, offcet'+project_id, limit, offcet)
     const {
         data,
         status
@@ -45,32 +44,32 @@ const task_create = async (req, res) => {
             name,
             code,
             description,
-            type,
-            task_status
+            type_name,
+            status_id
         }
     } = req;
     const {
         data,
         status
-    } = await createNewTask(project_id, name, code, description, type, task_status);
+    } = await createNewTask(project_id, name, code, description, type_name, status_id);
     res.status(status).send(data);
 }
 
 const task_update = async (req, res) => {
     const {
         body: {
-            project_id,
+            id,
             name,
             code,
             description,
-            type,
-            task_status
+            type_name,
+            status_id
         }
     } = req;
     const {
         data,
         status
-    } = await updateTask(project_id, name, code, description, type, task_status);
+    } = await updateTask(id, name, code, description, type_name, status_id);
     res.status(status).send(data);
 }
 

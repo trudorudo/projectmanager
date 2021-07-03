@@ -196,8 +196,8 @@ export const saveProjectSaga = function* () {
       const {
         data
       } = yield axios.post('http://localhost:8000/api/v1/projects/', {
-        name: payload.projectName,
-        code: payload.projectCode
+        name: payload.name,
+        code: payload.code
       });
       yield put({
         type: SAVE_PROJECT_REQUEST_SUCCESS,
@@ -270,8 +270,8 @@ export const updateProjectSaga = function* () {
         data
       } = yield axios.put('http://localhost:8000/api/v1/projects/', {
         id: payload.id,
-        name: payload.projectName,
-        code: payload.projectCode
+        name: payload.name,
+        code: payload.code
       });
       yield put({
         type: UPDATE_PROJECT_REQUEST_SUCCESS,

@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import ClipLoader from "react-spinners/BounceLoader";
 import TaskCard from '../TaskCard';
 import { ADD__NEW_TASK } from '../../utils/constants';
-import NewTaskModal from '../NewTaskModal';
+import NewTaskModal from '../NewTaskModal/NewTaskModal';
 import { useParams } from 'react-router-dom'
 import useTraceUpdate from '../../hooks/useTraceUpdate'
 import { batch } from 'react-redux'
@@ -45,6 +45,8 @@ const TasksListComponent = (props) => {
                         taskItem={taskItem}
                         updateTask={updateTask}
                         deleteTask={deleteTask}
+                        typesList={typesList}
+                        statusesList={statusesList}
                      />)}
                </div>
          }
@@ -59,6 +61,8 @@ const TasksListComponent = (props) => {
             title={ADD__NEW_TASK}
             taskItem={{ project_id: project_id }}
             taskModalAction={saveTask}
+            typesList={typesList}
+            statusesList={statusesList}
          />}
       </div>
    )

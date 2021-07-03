@@ -1,7 +1,0 @@
- - merge types, statuses controlles to tasks
- - each project can have different tasks
- - merge modules, common error for types and statuses
-
- - saga,
-
- -  search status, type by id 

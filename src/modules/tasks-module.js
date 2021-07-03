@@ -32,6 +32,16 @@ export const DELETE_TASK_SUCCESS = `${moduleName}/DELETE_TASK_SUCCESS`
 export const DELETE_TASK_ERROR = `${moduleName}/DELETE_TASK_ERROR`
 export const DELETE_TASK_LOADER = `${moduleName}/DELETE_TASK_LOADER`
 
+export const FETCH_STATUSES_REQUEST = `${moduleName}/FETCH_STATUSES_REQUEST`;
+export const FETCH_STATUSES_SUCCESS = `${moduleName}/FETCH_STATUSES_SUCCESS`;
+export const FETCH_STATUSES_ERROR = `${moduleName}/FETCH_STATUSES_ERROR`;
+export const FETCH_STATUSES_LOADER = `${moduleName}/FETCH_STATUSES_LOADER`;
+
+export const FETCH_TYPES_REQUEST = `${moduleName}/FETCH_TYPES_REQUEST`;
+export const FETCH_TYPES_SUCCESS = `${moduleName}/FETCH_TYPES_SUCCESS`;
+export const FETCH_TYPES_ERROR = `${moduleName}/FETCH_TYPES_ERROR`;
+export const FETCH_TYPES_LOADER = `${moduleName}/FETCH_TYPES_LOADER`;
+
 // REDUCERS
 
 const initialState = {
@@ -39,7 +49,9 @@ const initialState = {
   error: null,
   isLoading: false,
   isTaskUpdated: false,
-  isTaskDeleted: false
+  isTaskDeleted: false,
+  statusesList: [],
+  typesList: []
 }
 
 export default function tasksReducer(state = initialState, action = {}) {
@@ -77,7 +89,7 @@ export default function tasksReducer(state = initialState, action = {}) {
     case SAVE_TASK_SUCCESS:
       return {
         ...state,
-        tasksData: {...state.tasksData, data: action.payload }
+        tasksData: { ...state.tasksData, data: action.payload }
       }
     case SAVE_TASK_ERROR:
       return {
@@ -108,6 +120,39 @@ export default function tasksReducer(state = initialState, action = {}) {
         isLoading: true,
         isTaskDeleted: false
       }
+    case FETCH_STATUSES_SUCCESS:
+      return {
+        ...state,
+        statusesList: action.payload
+      }
+    case FETCH_STATUSES_LOADER:
+      return {
+        ...state,
+        isLoading: action.payload
+      }
+    case FETCH_STATUSES_ERROR:
+      return {
+        ...state,
+        error: action.payload,
+        statusesList: []
+      }
+    case FETCH_TYPES_SUCCESS:
+      return {
+        ...state,
+        typesList: action.payload
+      }
+    case FETCH_TYPES_LOADER:
+      return {
+        ...state,
+        isLoading: action.payload
+      }
+    case FETCH_TYPES_ERROR:
+      return {
+        ...state,
+        error: action.payload,
+        typesList: []
+      }
+
     default:
       return state
   }
@@ -119,6 +164,9 @@ export const moduleSelector = state => state[moduleName];
 export const tasksListSelector = createSelector(moduleSelector, state => state.tasksData?.data || []);
 export const isFetchLadingSelector = createSelector(moduleSelector, state => state.isLoading);
 export const errorSelector = createSelector(moduleSelector, state => state.error);
+export const statusesListSelector = createSelector(moduleSelector, state => state?.statusesList?.data);
+export const typesListSelector = createSelector(moduleSelector, state => state?.typesList?.data);
+
 
 // ACTION CREATORS
 
@@ -140,6 +188,14 @@ export const saveTask = (obj) => ({
 export const deleteTask = (id) => ({
   type: DELETE_TASK_REQUEST,
   payload: id
+});
+
+export const getStatuses = () => ({
+  type: FETCH_STATUSES_REQUEST
+});
+
+export const getTypes = () => ({
+  type: FETCH_TYPES_REQUEST
 });
 
 
@@ -194,12 +250,11 @@ export const updateTaskSaga = function* () {
         url: 'http://localhost:8000/api/v1/tasks/',
         data: {
           id: payload.id,
-          project_id: payload.project_id,
-          name: payload.taskName,
-          code: payload.taskCode,
-          description: payload.taskDescription,
-          type: payload.taskType,
-          task_status: payload.taskStatus
+          name: payload.name,
+          code: payload.code,
+          description: payload.description,
+          type_name: payload.type_name,
+          status_id: payload.status_id
         },
         method: 'PUT',
         // params: {
@@ -295,11 +350,73 @@ export const saveTaskSaga = function* () {
   }
 }
 
+export const getStatusesSaga = function* () {
+  while (true) {
+    yield take(FETCH_STATUSES_REQUEST)
+
+    yield put({
+      type: FETCH_STATUSES_LOADER,
+      payload: true
+    })
+
+    try {
+      const {
+        data
+      } = yield axios.get('http://localhost:8000/api/v1/status/');
+      yield put({
+        type: FETCH_STATUSES_SUCCESS,
+        payload: data
+      })
+    } catch (err) {
+      yield put({
+        type: FETCH_STATUSES_ERROR
+      })
+    } finally {
+      yield put({
+        type: FETCH_STATUSES_LOADER,
+        payload: false
+      })
+    }
+  }
+}
+
+export const getTypesSaga = function* () {
+  while (true) {
+    yield take(FETCH_TYPES_REQUEST)
+
+    yield put({
+      type: FETCH_TYPES_LOADER,
+      payload: true
+    })
+
+    try {
+      const {
+        data
+      } = yield axios.get('http://localhost:8000/api/v1/types/');
+      yield put({
+        type: FETCH_TYPES_SUCCESS,
+        payload: data
+      })
+    } catch (err) {
+      yield put({
+        type: FETCH_TYPES_ERROR
+      })
+    } finally {
+      yield put({
+        type: FETCH_TYPES_LOADER,
+        payload: false
+      })
+    }
+  }
+}
+
 export const saga = function* () {
   yield all([
     getTasksSaga(),
     updateTaskSaga(),
     deleteTaskSaga(),
-    saveTaskSaga()
+    saveTaskSaga(),
+    getStatusesSaga(),
+    getTypesSaga()
   ])
 }

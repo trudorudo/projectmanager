@@ -14,16 +14,16 @@ const projectListValidator = (limit, offset) => {
   return errors
 }
 
-const projectDataValidator = (name, code) => {
-  const errors = {}
+// const projectDataValidator = (name, code) => {
+//   const errors = {}
 
-  if (!name) errors.name = 'name cannot be empty'
-  if (!code) errors.code = 'code cannot be empty'
+//   if (!name) errors.name = 'name cannot be empty'
+//   if (!code) errors.code = 'code cannot be empty'
 
-  if (code.match(/[\ -\@]/g)) errors.code = 'code cannot contain special characters'
+//   if (code.match(/[\ -\@]/g)) errors.code = 'code cannot contain special characters'
 
-  return errors
-}
+//   return errors
+// }
 
 const sqlProjects = {
   text: 'SELECT * FROM projectdeskdb LIMIT $1 OFFSET $2'
@@ -50,13 +50,13 @@ const deleteProject = async (id) => {
 }
 
 const updateProject = async (id, name, code) => {
-  const errors = projectDataValidator(name, code)
-  if (errors.code || errors.name) {
-    return {
-      data: errors,
-      status: 400
-    }
-  }
+  // const errors = projectDataValidator(name, code)
+  // if (errors.code || errors.name) {
+  //   return {
+  //     data: errors,
+  //     status: 400
+  //   }
+  // }
 
   return {
     data: await connect.query(sqlUpdateProject, [id, name, code]),
@@ -65,13 +65,13 @@ const updateProject = async (id, name, code) => {
 }
 
 const createNewProject = async (name, code) => {
-  const errors = projectDataValidator(name, code)
-  if (errors.code || errors.name) {
-    return {
-      data: errors,
-      status: 400
-    }
-  }
+  // const errors = projectDataValidator(name, code)
+  // if (errors.code || errors.name) {
+  //   return {
+  //     data: errors,
+  //     status: 400
+  //   }
+  // }
 
   return {
     data: await connect.query(sqlInsertProject, [name, code]),
