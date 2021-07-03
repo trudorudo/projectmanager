@@ -26,8 +26,8 @@ const sqlUpdateTask = {
     text: `UPDATE taskdeskdb SET name = $2, code = $3, description = $4, status_id = $6, type = $5 WHERE id = $1 RETURNING name, code, description`
 }
 
-const sqlDeleteProject = {
-    text: `DELETE FROM taskdeskdb WHERE id = $1 RETURNING id, name, code`
+const sqlDeleteTask = {
+    text: `DELETE FROM taskdeskdb WHERE id = $1 RETURNING id, project_id`
 }
 const getAllTasksAll = async (limit = 99999, offset = 0) => {
     return {
@@ -67,7 +67,7 @@ const updateTask = async (id, name, code, description, type_name, status_id) => 
 
 const deleteTask = async (id) => {
     return {
-        data: await connect.query(sqlDeleteProject, [id]),
+        data: await connect.query(sqlDeleteTask, [id]),
         status: 200
     }
 }
