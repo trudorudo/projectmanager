@@ -1,7 +1,8 @@
 import {
   all,
   take,
-  put
+  put,
+  select
 } from 'redux-saga/effects';
 import {
   createSelector
@@ -320,6 +321,7 @@ export const deleteTaskSaga = function* () {
 export const saveTaskSaga = function* () {
   while (true) {
     const { payload } = yield take(SAVE_TASK_REQUEST)
+    const {tasksList} = yield select(tasksListSelector)
 
     yield put({
       type: SAVE_TASK_LOADER,
@@ -334,7 +336,7 @@ export const saveTaskSaga = function* () {
       });
       yield put({
         type: SAVE_TASK_SUCCESS,
-        payload: data?.rows
+        payload: [...tasksList, data]
       })
     } catch (err) {
       yield put({

@@ -16,6 +16,7 @@ const ProjectComponent = (props) => {
                     onClick={() => props.themeToggler()}>{icon}
                 </li>
             </ul>
+            <h2>{props.title}</h2>
         </div>
     )
 }

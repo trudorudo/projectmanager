@@ -11,8 +11,8 @@ const NewTaskModal = (props) => {
     const typeOptions = [];
     typesList?.map(type => {
         typeOptions.push(
-            <option value={type.type_name}>
-                {type.type_name}
+            <option value={type.id}>
+                {type.name}
             </option>
         )
     })
@@ -20,7 +20,7 @@ const NewTaskModal = (props) => {
     statusesList?.map(status => {
         statusOptions.push(
             <option value={status.id}>
-                {status.status_name}
+                {status.name}
             </option>
         )
     })
@@ -38,9 +38,6 @@ const NewTaskModal = (props) => {
                             if (!values.name) {
                                 errors.name = "Task name is required"
                             }
-                            if (!values.code) {
-                                errors.code = "Task code is required"
-                            }
                             return errors;
                         }}
                         onSubmit={handleSubmit}
@@ -51,15 +48,10 @@ const NewTaskModal = (props) => {
                                 className='inputForm'
                                 name='name'
                             />
-                            <p>Code</p>
-                            <Field
-                                className='inputForm'
-                                name='code'
-                            />
                             <p>Type</p>
                             <Field
                                 className='inputForm'
-                                name='type_name'
+                                name='type_id'
                                 as="select"
                             >
                                 {typeOptions}

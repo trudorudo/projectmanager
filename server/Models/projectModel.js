@@ -1,4 +1,6 @@
 const connect = require('../database');
+require('dotenv').config();
+
 const {
   projectListFormatter
 } = require('../formatters');
@@ -26,19 +28,19 @@ const projectListValidator = (limit, offset) => {
 // }
 
 const sqlProjects = {
-  text: 'SELECT * FROM projectdeskdb LIMIT $1 OFFSET $2'
+  text: `SELECT * FROM ${process.env.DB_PROJECT_NAME} LIMIT $1 OFFSET $2`
 }
 
 const sqlInsertProject = {
-  text: `INSERT INTO projectdeskdb (name, code) VALUES ($1, $2) RETURNING id, name, code`
+  text: `INSERT INTO ${process.env.DB_PROJECT_NAME} (name, code) VALUES ($1, $2) RETURNING id, name, code`
 }
 
 const sqlUpdateProject = {
-  text: `UPDATE projectdeskdb SET name = $2, code = $3 WHERE id = $1 RETURNING id, name, code`
+  text: `UPDATE ${process.env.DB_PROJECT_NAME} SET name = $2, code = $3 WHERE id = $1 RETURNING id, name, code`
 }
 
 const sqlDeleteProject = {
-  text: `DELETE FROM projectdeskdb WHERE id = $1`
+  text: `DELETE FROM ${process.env.DB_PROJECT_NAME} WHERE id = $1`
 }
 
 

@@ -42,17 +42,16 @@ const task_create = async (req, res) => {
     body: {
       project_id,
       name,
-      code,
       description,
-      type_name,
+      type_id,
       status_id
     }
   } = req
   const {
-    data,
+    data : {rows},
     status
-  } = await createNewTask(project_id, name, code, description, type_name, status_id)
-  res.status(status).send(data)
+  } = await createNewTask(project_id, name, description, type_id, status_id)
+  res.status(status).send(rows[0])
 }
 
 const task_update = async (req, res) => {

@@ -1,10 +1,12 @@
 const connect = require('../database');
+require('dotenv').config();
+
 const {
     projectListFormatter
 } = require('../formatters');
 
 const sqlTypes = {
-    text: 'SELECT * FROM types_list'
+    text: `SELECT * FROM ${process.env.DB_TYPE_NAME}`
 }
 
 const getTypes = async () => {

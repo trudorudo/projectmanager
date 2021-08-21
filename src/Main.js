@@ -6,6 +6,7 @@ import NotFound from './components/NotFound/NotFound';
 import ProjectManagerContainer from './containers/ProjectManagerContainer';
 import TaskManagerContainer from './containers/TaskManagerContainer';
 import { lightTheme, darkTheme, GlobalStyles } from './themes';
+import {useWindowSize} from './hooks/useWindowSize'
 
 const StyledApp = styled.div`
   color: ${(props) => props.theme.fontColor};
@@ -13,7 +14,8 @@ const StyledApp = styled.div`
 
 function Main() {
   const [theme, setTheme] = useState("dark")
-
+  const windowSize = useWindowSize()
+  console.log(windowSize.width, windowSize.height)
   const themeToggler = useCallback(() => {
     theme === "light" ? setTheme("dark") : setTheme("light");
   }, [theme, setTheme]);
@@ -26,6 +28,7 @@ function Main() {
           <ProjectManagerNav
             themeToggler={themeToggler}
             theme={theme}
+            title={'Project manager ' + windowSize.width + ' ' + windowSize.height}
           />
           <Switch>
             <Route exact path='/' component={ProjectManagerContainer} />

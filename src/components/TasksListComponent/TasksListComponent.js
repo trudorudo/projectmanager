@@ -6,6 +6,7 @@ import NewTaskModal from '../NewTaskModal/NewTaskModal';
 import { useParams } from 'react-router-dom'
 import useTraceUpdate from '../../hooks/useTraceUpdate'
 import { batch } from 'react-redux'
+import {useDoubleClick} from '../../hooks/useDoubleClick'
 
 const TasksListComponent = (props) => {
    const {
@@ -35,6 +36,9 @@ const TasksListComponent = (props) => {
    }, [getTasks, getTypes, getStatuses]);
 
    const [open, setOpen] = React.useState(false);
+
+   const handleOpenModal = useDoubleClick(() => setOpen(true), () => alert('double click!'), 500)
+
    return (
       <div className='tasksList'>
          {
@@ -53,7 +57,7 @@ const TasksListComponent = (props) => {
          {project_id && <button
             className='addNewBtn'
             type='button'
-            onClick={() => setOpen(true)}
+            onClick={handleOpenModal}
          > + Add New</button>}
          {project_id && <NewTaskModal
             open={open}

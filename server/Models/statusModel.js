@@ -1,10 +1,12 @@
 const connect = require('../database');
+require('dotenv').config();
+
 const {
     projectListFormatter
 } = require('../formatters');
 
 const sqlStatuses = {
-    text: 'SELECT * FROM statuses_list'
+    text: `SELECT * FROM ${process.env.DB_STATUS_NAME}`
 }
 
 const getStatuses = async () => {
