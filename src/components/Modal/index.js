@@ -17,6 +17,7 @@ const Modal = ({ children, onClose, title }) => {
     const content = <div className='modal__container' onClick={onClose}>
         <div className='modal__content' onClick={(evt) => evt.stopPropagation()}>
             <div className='modal__title'>
+                <h2>modal</h2>
                 <h3>{title}</h3>
                 <span onClick={onClose}>X</span>
             </div>
