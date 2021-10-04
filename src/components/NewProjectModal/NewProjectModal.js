@@ -15,7 +15,7 @@ const NewProjectModal = (props) => {
             {open &&
                 <Modal
                     title={title}
-                    onClose={() => setOpen(false)}
+                    onClose={setOpen}
                 >
                     <Formik
                         initialValues={projectItem}

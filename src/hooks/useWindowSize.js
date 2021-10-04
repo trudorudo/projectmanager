@@ -1,5 +1,5 @@
 import {useEffect, useState} from 'react'
-
+import { useEventListener } from './useEvenListener'; 
 export const useWindowSize = () => {
   const getWindowSizes = () => ({
     height: window.innerHeight,
@@ -11,14 +11,16 @@ export const useWindowSize = () => {
   function onResize() {
     setSize(getWindowSizes())
   }
+  
+  useEventListener('resize', onResize)
+  // useEffect(() => {
+  //   // window.addEventListener('resize', onResize)
+    
 
-  useEffect(() => {
-    window.addEventListener('resize', onResize)
-
-    return () => {
-      window.removeEventListener('resize', onResize)
-    }
-  }, [])
+  //   return () => {
+  //     window.removeEventListener('resize', onResize)
+  //   }
+  // }, [])
 
   return size
 }

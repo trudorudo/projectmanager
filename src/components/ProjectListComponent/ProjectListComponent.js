@@ -4,6 +4,7 @@ import { ADD_NEW_PROJECT } from '../../utils/constants';
 import ProjectCard from '../ProjectCard/ProjectCard';
 import NewProjectModal from '../NewProjectModal/NewProjectModal';
 import './projectListComponent.css';
+import { useToggle } from '../../hooks/useToggle';
 
 const ProjectListComponent = (props) => {
   const {
@@ -23,11 +24,12 @@ const ProjectListComponent = (props) => {
   }, [getProjects]);
 
 
-  const [open, setOpen] = React.useState(false);
+  // const [open, setOpen] = React.useState(false);
+  const [isModalOpen, setIsModalOpen] = useToggle();
 
   useEffect(() => {
     getProjects();
-    setOpen(false);
+    // setIsModalOpen(false);
   }, [newProjectData]);
 
   let [color, setColor] = useState("#ffffff");
@@ -49,11 +51,11 @@ const ProjectListComponent = (props) => {
             <button
               className='addNewBtn'
               type='button'
-              onClick={() => setOpen(true)}
+              onClick={setIsModalOpen}
             > + Add New</button>
             <NewProjectModal
-              open={open}
-              setOpen={setOpen}
+              open={isModalOpen}
+              setOpen={setIsModalOpen}
               projectModalAction={saveProject}
               isAddNewLoading={isAddNewLoading}
               title={ADD_NEW_PROJECT}
