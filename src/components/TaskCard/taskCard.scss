@@ -1,0 +1,32 @@
+.taskCard{
+    border: 1px gray solid;
+    padding: 2rem;
+    font-family: 'Inconsolata', monospace;
+}
+
+.taskInfo {
+    display: grid;
+    grid-template-columns: 0.1fr 1fr 1fr 1fr 1fr;
+}
+
+.deleteBtn {
+    color: red;
+    background-color: black;
+    font-size: larger;
+    margin-right: 1rem;
+}
+
+.taskDescriprtion {
+    margin: 1rem;
+    margin-left: 2.5rem;
+}
+
+.taskstatus {
+    width: 9rem;
+    margin-left: 50%;
+    font-weight: bold;
+    // border-radius: 25%;
+    text-align-last: center;
+    padding-top: 3px;
+    color: black;
+}

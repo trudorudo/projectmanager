@@ -1,0 +1,21 @@
+.projectsNav {
+    border-bottom: 2px solid yellow;
+}
+.navItem {
+    margin: 1rem;
+}
+
+.projectList {
+    display: flex;
+    flex-direction: column;
+    margin: 1rem;
+}
+
+.addNewBtn {
+    margin: 1rem;
+    float: right;
+    background-color: gray;
+    color: white;
+    width: 7rem;
+    height: 2rem;
+}
